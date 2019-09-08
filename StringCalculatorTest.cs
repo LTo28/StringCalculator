@@ -11,48 +11,61 @@ namespace Main
         {
             StringCalculator calculator = new StringCalculator();
 
-            int results = calculator.Add("");
+            double results = calculator.Add("");
 
             Assert.AreEqual(0, results);
         }
         [TestCase("1",1)]
         [TestCase("20",20)]
         [TestCase("5000",5000)]
-        public void Add_Single_ReturnThatNumber(string number, int expected)
+        [TestCase("tytyt",0)]
+        [TestCase("a",0)]
+        public void Add_Single_ReturnThatNumber(string number, double expected)
         {
             StringCalculator calculator = new StringCalculator();
 
-            int results = calculator.Add(number);
+            double results = calculator.Add(number);
 
             Assert.AreEqual(expected, results);
         }
         [TestCase("1,5000", 5001)]
         [TestCase("1,1",2)]
-        public void Add_MultipleNumbers_ReturnSum(string number, int expected)
+        [TestCase("5,tytyt",5)]
+        [TestCase("1,2,3,4,5,6,7,8,9,10,11,12",78)]
+        [TestCase("2,4,6,8,10",30)]
+        public void Add_MultipleNumbers_ReturnSum(string number, double expected)
         {
             StringCalculator calculator = new StringCalculator();
 
-            int results = calculator.Add(number);
+            double results = calculator.Add(number);
 
             Assert.AreEqual(expected, results);
         }
     }
     public class StringCalculator
     {
-       public int Add(string number)
+       public double Add(string number)
        {
-            String[] multiNumbers = number.Split(',');
+            string[] numberArray = number.Split(',');
+            double sum = 0;
 
-            if (number.Length == 0)
+            if (number.Length == 0 || Char.IsLetter(number,0))
             {
                 return 0;
             }
-            else if (number.Contains(","))
+            else if (numberArray.Length > 0)
             {
-                return int.Parse(multiNumbers[0]) + int.Parse(multiNumbers[1]);
+                for (int i = 0; i < numberArray.Length; i++)
+                {
+                    double num = 0;
+                    bool valid = double.TryParse(numberArray[i], out num);
+                    if (valid)
+                    {
+                        sum += num;
+                    }
+                }
             }
-            return int.Parse(number);
-       }
+            return sum;
+        }
     }
-
     }
