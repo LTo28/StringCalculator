@@ -33,6 +33,7 @@ namespace Main
         [TestCase("5,tytyt",5)]
         [TestCase("1,2,3,4,5,6,7,8,9,10,11,12",78)]
         [TestCase("2,4,6,8,10",30)]
+        [TestCase("1\n2,3",6)]
         public void Add_MultipleNumbers_ReturnSum(string number, double expected)
         {
             StringCalculator calculator = new StringCalculator();
@@ -46,14 +47,14 @@ namespace Main
     {
        public double Add(string number)
        {
-            string[] numberArray = number.Split(',');
+            string[] numberArray = number.Split(new[] { "\n", ","}, StringSplitOptions.None);
             double sum = 0;
 
             if (number.Length == 0 || Char.IsLetter(number,0))
             {
                 return 0;
             }
-            else if (numberArray.Length > 0)
+            else if (numberArray.Length > 1)
             {
                 for (int i = 0; i < numberArray.Length; i++)
                 {
@@ -64,8 +65,9 @@ namespace Main
                         sum += num;
                     }
                 }
+                return sum;
             }
-            return sum;
+            return int.Parse(number);
         }
     }
     }
