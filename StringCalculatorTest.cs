@@ -6,28 +6,14 @@ namespace Main
     [TestFixture]
     public class StringCalculatorTest
     {
-        [Test]
-        public void Add_EmptyString_ReturnsZero()
-        {
-            StringCalculator calculator = new StringCalculator();
+        StringCalculator calculator = new StringCalculator();
 
-            double results = calculator.Add("");
-
-            Assert.AreEqual(0, results);
-        }
-        [TestCase("1",1)]
-        [TestCase("20",20)]
-        [TestCase("5000",5000)]
-        [TestCase("tytyt",0)]
-        [TestCase("a",0)]
-        public void Add_Single_ReturnThatNumber(string number, double expected)
-        {
-            StringCalculator calculator = new StringCalculator();
-
-            double results = calculator.Add(number);
-
-            Assert.AreEqual(expected, results);
-        }
+        [TestCase("",0)]
+        [TestCase("1", 1)]
+        [TestCase("20", 20)]
+        [TestCase("5000", 5000)]
+        [TestCase("tytyt", 0)]
+        [TestCase("a", 0)]
         [TestCase("1,100", 101)]
         [TestCase("1,1",2)]
         [TestCase("5,tytyt",5)]
@@ -36,10 +22,8 @@ namespace Main
         [TestCase("10,-5",5)]
         [TestCase("2,1000,6",8)]
         [TestCase("10,2000",10)]
-        public void Add_MultipleNumbers_ReturnSum(string number, double expected)
+        public void Add_Numbers_ReturnSum(string number, double expected)
         {
-            StringCalculator calculator = new StringCalculator();
-
             double results = calculator.Add(number);
 
             Assert.AreEqual(expected, results);
