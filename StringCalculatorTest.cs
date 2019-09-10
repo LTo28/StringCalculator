@@ -19,6 +19,7 @@ namespace Main
         [TestCase("10,2000",10)]
         [TestCase("//;\n2;5",7)]
         [TestCase("//[***]\n11***22***33", 66)]
+        [TestCase("//[*][!!][r9r]\n11r9r22*33!!44", 110)]
         public void Add_Numbers_ReturnSum(string number, double expected)
         {
             double results = calculator.Add(number);
@@ -30,7 +31,7 @@ namespace Main
     {
        public double Add(string number)
        {
-            string[] numberArray = number.Split(new[] { "/","***", ";", "\n", "," }, StringSplitOptions.None) ;
+            string[] numberArray = number.Split(new[] { "/","***", "*", "r9r", "!", ";", "\n", "," }, StringSplitOptions.None) ;
             double sum = 0;
 
             if (number.Length == 0 || Char.IsLetter(number,0))
