@@ -28,12 +28,14 @@ namespace Main
 
             Assert.AreEqual(expected, results);
         }
-        [TestCase("1,5000", 5001)]
+        [TestCase("1,100", 101)]
         [TestCase("1,1",2)]
         [TestCase("5,tytyt",5)]
         [TestCase("1,2,3,4,5,6,7,8,9,10,11,12",78)]
-        [TestCase("2,4,6,8,10",30)]
         [TestCase("1\n2,3",6)]
+        [TestCase("10,-5",5)]
+        [TestCase("2,1000,6",8)]
+        [TestCase("10,2000",10)]
         public void Add_MultipleNumbers_ReturnSum(string number, double expected)
         {
             StringCalculator calculator = new StringCalculator();
@@ -58,11 +60,11 @@ namespace Main
             {
                 for (int i = 0; i < numberArray.Length; i++)
                 {
-                    double num = 0;
-                    bool valid = double.TryParse(numberArray[i], out num);
-                    if (valid)
+                    double num1 = 0;
+                    bool valid1 = double.TryParse(numberArray[i], out num1);
+                    if (valid1 && num1 < 1000)
                     {
-                        sum += num;
+                        sum += num1;
                     }
                 }
                 return sum;
