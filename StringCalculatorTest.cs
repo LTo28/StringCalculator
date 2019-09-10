@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 
 namespace Main
@@ -26,6 +28,12 @@ namespace Main
 
             Assert.AreEqual(expected, results);
         }
+        [TestCase("1,-2","-2")]
+        public void ThrowException_NegativeNumbers(string number, string expected)
+        {
+            var exception = Assert.Throws<Exception>(() => this.calculator.Add(number));
+            Assert.AreEqual("Negatives not allowed: " + expected, exception.Message);
+        }
     }
     public class StringCalculator
     {
@@ -40,14 +48,31 @@ namespace Main
             }
             else if (numberArray.Length > 1)
             {
+                var negativeNumbers = new List<double>();
                 for (int i = 0; i < numberArray.Length; i++)
                 {
-                    double num1 = 0;
-                    bool valid1 = double.TryParse(numberArray[i], out num1);
-                    if (valid1 && num1 < 1000)
+                    double num = 0;
+                    bool valid1 = double.TryParse(numberArray[i], out num);
+                    if (valid1 && num < 1000 && num > 0)
                     {
-                        sum += num1;
+                        sum += num;
                     }
+                    else if (num < 0)
+                    {
+                        double num1 = double.Parse(numberArray[i]);
+                        
+                        if (num1 < 0)
+                        {
+                            negativeNumbers.Add(num1);
+                        }
+                        sum += num1;
+                        if (negativeNumbers.Any())
+                        {
+                            throw new Exception("Negatives not allowed: " + string.Join(",", negativeNumbers));
+                        }
+                        return sum;
+                    }
+                    
                 }
                 return sum;
             }
