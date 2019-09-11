@@ -80,25 +80,27 @@ namespace Main
     {
        public double Add(string number)
        {
-            string[] numberArray = number.Split(new[] { "/","***", "*", "r9r", "!", ";", "\n", "," }, StringSplitOptions.None) ;
+            string[] numberArray = number.Split(new[] { "/","***", "*", "r9r", "!", ";", "\n", "," }, StringSplitOptions.None);
             double sum = 0;
-
             for (int i = 0; i < numberArray.Length; i++)
             {
                 double num = 0;
+                var negative = new List<double>();
                 bool valid = double.TryParse(numberArray[i], out num);
-                var negativeNumbers = new List<double>();
+                if (num < 0)
+                {
+                    negative.Add(num);
+                }
+                if (negative.Any())
+                {
+                    throw new Exception("Negatives not allowed: " + string.Join(",", negative));
+                }
                 if (valid && num < 1000)
                 {
-                    if (num < 0)
-                        negativeNumbers.Add(num);
                     sum += num;
-                    }
-                    if (negativeNumbers.Any())
-
-                        throw new Exception("Negatives not allowed: " + string.Join(",", negativeNumbers));
                 }
-                return sum;
+            }
+            return sum;
         }
     }
-    }
+}
