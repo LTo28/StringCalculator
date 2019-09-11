@@ -78,27 +78,28 @@ namespace Main
     }
     public class StringCalculator
     {
-       public double Add(string number)
+        public double Add(string number)
        {
             string[] numberArray = number.Split(new[] { "/","***", "*", "r9r", "!", ";", "\n", "," }, StringSplitOptions.None);
             double sum = 0;
+            var negative = new List<double>();
             for (int i = 0; i < numberArray.Length; i++)
             {
                 double num = 0;
-                var negative = new List<double>();
+                
                 bool valid = double.TryParse(numberArray[i], out num);
                 if (num < 0)
                 {
                     negative.Add(num);
                 }
-                if (negative.Any())
-                {
-                    throw new Exception("Negatives not allowed: " + string.Join(",", negative));
-                }
                 if (valid && num < 1000)
                 {
                     sum += num;
                 }
+            }
+            if (negative.Any())
+            {
+                throw new Exception("Negatives not allowed: " + string.Join(",", negative));
             }
             return sum;
         }
