@@ -79,7 +79,7 @@ namespace Main
     public class StringCalculator
     {
         public double Add(string number)
-       {
+        {
             string[] numberArray = number.Split(new[] { "/","***", "*", "r9r", "!", ";", "\n", "," }, StringSplitOptions.None);
             double sum = 0;
             var negative = new List<double>();
@@ -102,6 +102,21 @@ namespace Main
                 throw new Exception("Negatives not allowed: " + string.Join(",", negative));
             }
             return sum;
+        }
+        static void Main()
+        {
+            Console.WriteLine("String Calculator - Enter in numbers seperated by commas");
+            Console.WriteLine("Example of input: 1,1");
+            do
+            {
+                while (! Console.KeyAvailable)
+                {
+                    StringCalculator calculator = new StringCalculator();
+                    Console.Write("Input: ");
+                    string inputNumber = Console.ReadLine();
+                    Console.WriteLine("Output: " + calculator.Add(inputNumber));
+                }
+            } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
         }
     }
 }
